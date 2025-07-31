@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Banano Memes Daily 🍌</title>
+  <style>
+    body {
+      background-color: #111;
+      color: yellow;
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+    header {
+      background-color: yellow;
+      color: black;
+      padding: 1rem;
+      text-align: center;
+      font-size: 2rem;
+    }
+    .container {
+      padding: 1rem;
+    }
+    .form-group {
+      margin-bottom: 1rem;
+    }
+    input, button {
+      padding: 0.5rem;
+      font-size: 1rem;
+      margin-top: 0.25rem;
+    }
+    button {
+      background-color: yellow;
+      color: black;
+      border: none;
+      cursor: pointer;
+    }
+    .meme {
+      background-color: #222;
+      margin: 1rem 0;
+      padding: 1rem;
+      border: 2px solid yellow;
+    }
+    .meme img {
+      max-width: 100%;
+      border: 2px solid black;
+    }
+    .caption {
+      margin-top: 0.5rem;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <header>Banano Daily Memes 🍌</header>
+  <div class="container">
+    <div class="form-group">
+      <label>Image URL:</label><br>
+      <input type="text" id="imageUrl" placeholder="https://example.com/meme.jpg" size="50">
+    </div>
+    <div class="form-group">
+      <label>Caption:</label><br>
+      <input type="text" id="caption" placeholder="Your funny text here..." size="50">
+    </div>
+    <button onclick="addMeme()">Add Meme</button>
+
+    <div id="memes"></div>
+  </div>
+
+  <script>
+    const memes = JSON.parse(localStorage.getItem("bananoMemes") || "[]");
+
+    function renderMemes() {
+      const container = document.getElementById("memes");
+      container.innerHTML = "";
+      memes.forEach(({ url, caption }) => {
+        const memeDiv = document.createElement("div");
+        memeDiv.className = "meme";
+        memeDiv.innerHTML = `
+          <img src="${url}" alt="Meme">
+          <div class="caption">${caption}</div>
+        `;
+        container.appendChild(memeDiv);
+      });
+    }
+
+    function addMeme() {
+      const url = document.getElementById("imageUrl").value.trim();
+      const caption = document.getElementById("caption").value.trim();
+      if (!url) return alert("Please enter an image URL.");
+      memes.unshift({ url, caption });
+      localStorage.setItem("bananoMemes", JSON.stringify(memes));
+      renderMemes();
+      document.getElementById("imageUrl").value = "";
+      document.getElementById("caption").value = "";
+    }
+
+    renderMemes();
+  </script>
+</body>
+</html>
